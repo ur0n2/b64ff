@@ -1,7 +1,8 @@
 #-*- coding: utf-8-*-
 #17.05.23 by ur0n2
 #b64ff.py: base64 for file
-#passthe text file and binary file test.
+#pass the text file and binary file test.
+
 import base64
 import sys
 
@@ -35,42 +36,36 @@ if __name__ == '__main__':
 	try:
 		#Encode
 		if sys.argv[1] == "e":
-			finput = open(sys.argv[2], "rb")
-			data = finput.read()
-			if len(sys.argv) == 3: #Omitted arguments are 'o' and 'out.b64
-				data = encode_base64(data)
-				foutput = open("out.b64", "wb")
-				foutput.write(data)
-				foutput.close()
-				print_data(data)
-			elif sys.argv[3] == "o":	
-				data = encode_base64(data)
-				foutput = open(sys.argv[4], "wb")
-				foutput.write(data)
-				foutput.close()
-				print_data(data)
-			else:
-				print_usage()
-			finput.close()
+			with open(sys.argv[2], "rb") as finput:
+				data = finput.read()
+				if len(sys.argv) == 3: #Omitted arguments are 'o' and 'out.b64
+					data = encode_base64(data)
+					with open("out.b64", "wb") as foutput:
+						foutput.write(data)
+					print_data(data)
+				elif sys.argv[3] == "o":	
+					data = encode_base64(data)
+					with open(sys.argv[4], "wb") as foutput:
+						foutput.write(data)
+					print_data(data)
+				else:
+					print_usage()
 		#Decode
 		elif sys.argv[1] == "d":
-			finput = open(sys.argv[2], "rb")
-			data = finput.read()
-			if len(sys.argv) == 3: #Omitted arguments are 'o' and 'out.b64
-				data = decode_base64(data)
-				foutput = open("out.b64", "wb")
-				foutput.write(data)
-				foutput.close()
-				print_data(data)
-			elif sys.argv[3] == "o":
-				data = decode_base64(data)
-				foutput = open(sys.argv[4], "wb")
-				foutput.write(data)
-				foutput.close()
-				print_data(data)
-			else:
-				print_usage()
-			finput.close()
+			with open(sys.argv[2], "rb") as finput:
+				data = finput.read()
+				if len(sys.argv) == 3: #Omitted arguments are 'o' and 'out.b64
+					data = decode_base64(data)
+					with open("out.b64", "wb") as foutput:
+						foutput.write(data)
+					print_data(data)
+				elif sys.argv[3] == "o":
+					data = decode_base64(data)
+					with open(sys.argv[4], "wb") as foutput:
+						foutput.write(data)
+					print_data(data)
+				else:
+					print_usage()
 		else: 
 			print_usage()
 	except:
