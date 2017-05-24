@@ -29,7 +29,7 @@ def print_data(data):
 	if wanna == "y":
 		print(data)
 	elif wanna == "n":
-		exit()
+		return #exit() is except
 
 
 if __name__ == '__main__':	
