@@ -27,11 +27,7 @@ def print_data(data):
 
 	if wanna == "y":
 		print(data)
-<<<<<<< HEAD
 	else: 
-=======
-	elif wanna == "n":
->>>>>>> 6a3cd5830d8ea98369f4364fa3f126c89a49ace5
 		return #exit() is except
 
 
