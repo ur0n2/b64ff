@@ -23,13 +23,12 @@ def print_usage():
 
 
 def print_data(data):
-	print("Do u wanna print data? (y or n)")
-	wanna = raw_input()
+	wanna = raw_input("Do u wanna print data? ('y' or anything typing for quit)")
 
 	if wanna == "y":
 		print(data)
-	elif wanna == "n":
-		exit()
+	else: 
+		return #exit() is except
 
 
 if __name__ == '__main__':	
