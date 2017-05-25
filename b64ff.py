@@ -41,14 +41,13 @@ if __name__ == '__main__':
 					data = encode_base64(data)
 					with open("out.b64", "wb") as foutput:
 						foutput.write(data)
-					print_data(data)
 				elif sys.argv[3] == "o":	
 					data = encode_base64(data)
 					with open(sys.argv[4], "wb") as foutput:
 						foutput.write(data)
-					print_data(data)
 				else:
 					print_usage()
+				print_data(data)
 		#Decode
 		elif sys.argv[1] == "d":
 			with open(sys.argv[2], "rb") as finput:
@@ -57,14 +56,13 @@ if __name__ == '__main__':
 					data = decode_base64(data)
 					with open("out.b64", "wb") as foutput:
 						foutput.write(data)
-					print_data(data)
 				elif sys.argv[3] == "o":
 					data = decode_base64(data)
 					with open(sys.argv[4], "wb") as foutput:
 						foutput.write(data)
-					print_data(data)
 				else:
 					print_usage()
+				print_data(data)
 		else: 
 			print_usage()
 	except:
