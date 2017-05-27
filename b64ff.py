@@ -48,6 +48,26 @@ if __name__ == '__main__':
 				else:
 					print_usage()
 				print_data(data)
+		elif sys.argv[1] == "er": #Encode Repeat
+			print "[+] Encode repeat poc" #b64ff.py er in.b64 3
+			with open(sys.argv[2], "rb") as finput:
+				data = finput.read()
+				if len(sys.argv) == 4: #Omitted arguments are 'o' and 'out.b64
+					print("[+] xrange" + sys.argv[3])
+					for x in xrange(0, int(sys.argv[3])): # argv(3) = number
+						data = encode_base64(data)
+						with open("out.b64", "wb") as foutput:
+							foutput.write(data)
+				"""
+				elif sys.argv[3] == "o":	
+					data = encode_base64(data)
+					with open(sys.argv[4], "wb") as foutput:
+						foutput.write(data)
+				else:
+					print_usage()
+				"""
+				print_data(data)
+
 		#Decode
 		elif sys.argv[1] == "d":
 			with open(sys.argv[2], "rb") as finput:

@@ -1,5 +1,4 @@
 import b64ff
-
 f = open("in.txt", "r")
 data = f.read()
 f2 = open("out.txt", "w")
