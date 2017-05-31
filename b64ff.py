@@ -5,6 +5,9 @@
 
 import base64
 import sys
+import argparse
+
+
 
 def encode_base64(finput):
 	encode_base64_data = base64.b64encode(finput)
