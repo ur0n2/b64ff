@@ -4,9 +4,7 @@
 #pass the text file and binary file test.
 
 import base64
-import sys
 import argparse
-
 
 
 def encode_base64(finput):
@@ -26,70 +24,49 @@ def print_usage():
 
 
 def print_data(data):
-	wanna = raw_input("Do u wanna print data? ('y' or anything typing for quit)")
-
-	if wanna == "y":
-		print(data)
-	else: 
-		return #exit() is except
+	print(data)
 
 
 if __name__ == '__main__':	
-	try:
-		#Encode
-		if sys.argv[1] == "e":
-			with open(sys.argv[2], "rb") as finput:
-				data = finput.read()
-				if len(sys.argv) == 3: #Omitted arguments are 'o' and 'out.b64
-					data = encode_base64(data)
-					with open("out.b64", "wb") as foutput:
-						foutput.write(data)
-				elif sys.argv[3] == "o":	
-					data = encode_base64(data)
-					with open(sys.argv[4], "wb") as foutput:
-						foutput.write(data)
-				else:
-					print_usage()
-				print_data(data)
-		elif sys.argv[1] == "er": #Encode Repeat
-			print "[+] Encode repeat poc" #b64ff.py er in.b64 3
-			with open(sys.argv[2], "rb") as finput:
-				data = finput.read()
-				if len(sys.argv) == 4: #Omitted arguments are 'o' and 'out.b64
-					print("[+] xrange" + sys.argv[3])
-					for x in xrange(0, int(sys.argv[3])): # argv(3) = number
-						data = encode_base64(data)
-						with open("out.b64", "wb") as foutput:
-							foutput.write(data)
-				"""
-				elif sys.argv[3] == "o":	
-					data = encode_base64(data)
-					with open(sys.argv[4], "wb") as foutput:
-						foutput.write(data)
-				else:
-					print_usage()
-				"""
-				print_data(data)
+	parser = argparse.ArgumentParser(prog="b64ff.py", usage = "%(prog)s [options]", description = "[-] base64 encoder and decoder")
+	parser._optionals.title = "[-] Optional arguments"
 
-		#Decode
-		elif sys.argv[1] == "d":
-			with open(sys.argv[2], "rb") as finput:
+	terribles = list(xrange(1,51))
+	group = parser.add_mutually_exclusive_group() # "group", "choicse mode"
+	group.add_argument("-e", "--encode", type = str, help = "Encode mode") 
+	group.add_argument("-d", "--decode", type = str, help = "Decode mode") #, metavar = "to_decode_data.b64")
+
+	parser.add_argument("-r", "--repeat", type = int, choices = terribles, default = 1, metavar = "", help = "En/Decoded repeat number(repeat number: 0~50, default=1)")
+	parser.add_argument("-o", "--output", type = str, default = "out.b64", help = "Input outfile path")
+	parser.add_argument("-v", "--verbose", action = "store_true", default = False, help = "Print the data") #, action = "store_true"
+	args = parser.parse_args()
+	#print(args)
+
+	file_path = args.encode or args.decode # good code
+	verbose = args.verbose
+	repeat = args.repeat
+	output_path = args.output
+
+	try:
+		if args.encode: 
+			print("[-] Encode mode")
+			with open(file_path, "rb") as finput:
 				data = finput.read()
-				if len(sys.argv) == 3: #Omitted arguments are 'o' and 'out.b64
+				for x in xrange(0, repeat):
+					data = encode_base64(data)
+				if verbose:
+					print_data(data)
+				with open(output_path, "wb") as foutput:
+					foutput.write(data)
+		elif args.decode:
+			print("[-] Decode mode")
+			with open(file_path, "rb") as finput:
+				data = finput.read()
+				for x in xrange(0, repeat):
 					data = decode_base64(data)
-					with open("out.b64", "wb") as foutput:
-						foutput.write(data)
-				elif sys.argv[3] == "o":
-					data = decode_base64(data)
-					with open(sys.argv[4], "wb") as foutput:
-						foutput.write(data)
-				else:
-					print_usage()
-				print_data(data)
-		else: 
-			print_usage()
+				if verbose:
+					print_data(data)
+				with open(output_path, "wb") as foutput:
+					foutput.write(data)
 	except:
-		if len(sys.argv) == 1:
-			print_usage()
-		else:
-			print("Error is occurred") #maybe almost error related to file descriptor.
+		print("[+] This is not base64 data. Please refer to help menu. (-h, --help).")
